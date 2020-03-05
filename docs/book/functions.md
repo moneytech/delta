@@ -55,14 +55,3 @@ foo();
 ```
 
 in which case `foo` will receive `i` with the value `42`.
-
-## Generic Functions
-
-To define generic functions, specify the type parameters inside angle brackets
-after the function name:
-
-```
-void foo<T>() { }
-```
-
-`T` is a now a placeholder for a type that can be used in the definition of `foo`.

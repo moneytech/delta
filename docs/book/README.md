@@ -1,6 +1,4 @@
-__Note:__ This document is incomplete and parts of it may be out of date.
-
-# Introduction
+# Delta
 
 Delta is a modern system programming language designed as an alternative to C++,
 C, and Rust. The primary goals of Delta are programmer productivity and
@@ -8,9 +6,11 @@ performance. Memory safety is also a priority, but while Delta improves on what
 C++ and C have to offer, it doesn't go as far as Rust at the detriment of
 ergonomics and productivity.
 
-# Why Delta?
+__Note:__ This document is incomplete and parts of it may be out of date.
 
-## Better compilation model
+## Why Delta?
+
+### Better compilation model
 
 - No header files, no forward declarations. API definitions can be generated
   from the source code if needed.
@@ -27,7 +27,7 @@ ergonomics and productivity.
 All of the above should result in faster compilation times and increased
 programmer productivity compared to C and C++.
 
-## Standard build system
+### Standard build system
 
 Building a Delta project is done with a single command: `delta build`, which
 works out of the box without a single line of build configuration code. It finds
@@ -43,7 +43,7 @@ Long-term goal: include a built-in linting tool that runs during compilation to
 enforce a specific coding style, or to disallow uses of certain language
 features.
 
-## Standard package manager
+### Standard package manager
 
 Using and distributing third-party libraries should be made as easy as possible.
 For example, there should be no platform-specific dependency or release
@@ -54,9 +54,10 @@ Initially supports fetching dependencies from Git repositories. Other version
 control systems, binary distributions, system package managers, etc. will be
 supported later.
 
-## Faster than C and C++
+### Faster than C and C++
 
 More optimization opportunities:
+
 - Moves are destructive, removing the need to reset moved-from objects and call
   their destructors, as is required in C++.
 - Pointers can be declared non-aliasing either individually or globally with a
@@ -75,13 +76,13 @@ benefiting from all current and future optimizations implemented in LLVM.
 No hidden expensive operations, like implicit calls to copy constructors and
 copy assignment operators in C++.
 
-## Improved syntax
+### Improved syntax
 
 Delta's syntax is clean, consistent, and similar to the C family of languages.
 
 No C-style cast syntax, only C++-style casts and built-in type constructors.
 
-### Examples of syntax
+#### Examples of syntax
 
 Syntax of a lambda returning the result of a single expression, with argument
 type inference:
@@ -96,7 +97,7 @@ C and C++                                   | Delta
 --------------------------------------------|-----------------------------------
 `void (*foo)(int);`                         | `void(int) foo;`
 
-## Simple and expressive language
+### Simple and expressive language
 
 - Only structs instead of having both struct and class.
 - Only pointers instead of having both pointers and references. Note that Delta
@@ -127,7 +128,7 @@ Semantics are more in line with usual programmer expectations:
   string manipulation member functions.
 - Array parameters aren't silently converted into pointers.
 
-## Safer by default
+### Safer by default
 
 Delta inserts at least the following safety checks by default:
 
@@ -149,7 +150,7 @@ to ignore. The call site can also explicitly declare the return value as unused
 by assigning it to `_`, instead of casting to void. `_` is a magic identifier
 which is also used in other contexts to mean "ignore this value".
 
-## Transparent interoperation with existing C APIs
+### Transparent interoperation with existing C APIs
 
 C headers can be imported directly from Delta code. The Clang API is used to
 parse the C headers and allow the contained declarations to be accessed from
@@ -159,7 +160,7 @@ from C.
 Support for the same level of interoperability with C++ APIs is a longer-term
 goal.
 
-## Improved type system
+### Improved type system
 
 Stronger typing to help avoid bugs and to make refactoring easier:
 
@@ -186,7 +187,7 @@ Modern type system features for convenience and performance:
 - First-class tuples to allow e.g. returning multiple values or storing pairs of
   values in a container using a lightweight syntax.
 
-## Standard library covers common use cases better
+### Standard library covers common use cases better
 
 - More string manipulation functions, e.g. case-insensitive comparison, `split`,
   `join`, `startsWith`, `endsWith`.
@@ -201,9 +202,9 @@ Modern type system features for convenience and performance:
     - Math functions can be evaluated at compile-time.
     - Standard library provides math constants such as Pi.
 
-## Language features
+### Language features
 
-### Destructuring
+#### Destructuring
 
 While iterating a map, the key and value from the key-value tuple can be
 destructured into separate variables:
@@ -228,13 +229,13 @@ void main() {
 }
 ```
 
-### Compile-time reflection
+#### Compile-time reflection
 
 Should cover common use cases such as iteration over enum cases, getting enum
 case string representations, printing the active type of a union, etc. Should
 follow the "pay only for what you use" principle.
 
-### Named arguments
+#### Named arguments
 
 An optional way to avoid cryptic call sites like `foo(true, false)` by labeling
 the arguments with the corresponding parameter name, with the compiler checking
@@ -243,19 +244,19 @@ that the argument labels match the parameter names, e.g.
 order as the parameters. This also enables function overloading on parameter
 names.
 
-### Defer statement
+#### Defer statement
 
 The `defer` keyword allows declaring arbitrary code, such as resource cleanup
 functions, to be executed when exiting the current scope. In C++ one has to
 write an RAII wrapper class to achieve this.
 
-### Type inference
+#### Type inference
 
 Type inference for local and global variables, to improve productivity and make
 the code more amenable to type changes when refactoring. The strong type system
 still has your back.
 
-## …and all the good parts from C and C++
+### …and all the good parts from C and C++
 
 - Performance and control.
 - Pay only for what you use.
